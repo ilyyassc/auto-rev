@@ -18,3 +18,12 @@ func (SubscriptionDaoImpl) GetSubscriptionByUserId(id string) (u model.Subscript
 	}
 	return data, result.Error
 }
+
+func (SubscriptionDaoImpl) CreateSubscription(data model.Subscriptions) (e error) {
+	defer config.CatchError(&e)
+	result := g.Create(data)
+	if result.Error == nil {
+		return nil
+	}
+	return result.Error
+}

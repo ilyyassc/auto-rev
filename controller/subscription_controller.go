@@ -3,7 +3,7 @@ package controller
 import(
 	"auto-rev/service"
 	"auto-rev/config"
-	// "auto-rev/model"
+	"auto-rev/model"
 
 	"github.com/labstack/echo/v4"
 	"errors"
@@ -13,6 +13,7 @@ var subscriptionService service.SubscriptionService = service.SubscriptionServic
 
 func SetSubscription(eg *echo.Group) {
 	eg.GET("/subscription", getSubscription)
+	eg.POST("/subscription", createSubscription)
 }
 
 func getSubscription(c echo.Context) (e error) {
@@ -29,4 +30,20 @@ func getSubscription(c echo.Context) (e error) {
 	}
 	return resErr(c, err)
 
+}
+
+func createSubscription(c echo.Context) (e error) {
+	defer config.CatchError(&e)
+	data := new(model.SubscribeParams)
+
+	if err := c.Bind(data); err != nil {
+		return resErr(c, err)
+	}
+
+	err := subscriptionService.Subscribe(data)
+	if err == nil {
+		return res(c, data)
+	}
+
+	return resErr(c, err)
 }

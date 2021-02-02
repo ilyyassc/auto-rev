@@ -6,4 +6,5 @@ import (
 
 type SubscriptionService interface {
 	GetSubscriptionByUserId(user_id string) (model.Subscriptions, error)
+	Subscribe(*model.SubscribeParams) (error)
 }

@@ -1,6 +1,6 @@
 package model
 
-type GetSubscriptionParams struct {
-	RoleName string `json:"name" gorm:"column:role_name"`
-	RoleCode string `json:"code" gorm:"unique;column:code"`
+type SubscribeParams struct {
+	UserId string `json:"user_id"`
+	PackageId string `json:"package_id"`
 }
