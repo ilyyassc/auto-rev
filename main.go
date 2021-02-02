@@ -1,10 +1,11 @@
 package main
 
 import(
-	"github.com/ilyyassc/config"
-	"github.com/ilyyassc/service"
+	"auto-rev/config"
+	"auto-rev/service"
+	"auto-rev/dao"
+	"auto-rev/controller"
 	"gorm.io/gorm"
-	"fmt"
 )
 
 func main(){
@@ -15,6 +16,8 @@ func main(){
 
 	controller.SetInit(e)
 	eg := config.SetJwt(e)
+	controller.SetSubscription(eg)
+	controller.SetUser(eg,e)
 
 	e.Logger.Fatal(e.Start(":1234"))
 }

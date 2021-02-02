@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 
-	"gjek/config"
+	"auto-rev/config"
 
 	"github.com/labstack/echo/v4"
 )
