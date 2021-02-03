@@ -7,9 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"auto-rev/config"
 	"auto-rev/dao"
-	"auto-rev/model"
-
-	"fmt"
+	"auto-rev/model"	
 )
 
 var userDao dao.UserDao = dao.UserDaoImpl{}
@@ -40,9 +38,7 @@ func (UserServiceImpl) Login(username string, pwd string) (u model.Users, e erro
 	result, err := userDao.GetUserByUsername(username)
 	if err == nil && result.Count > 0 {
 		var err = bcrypt.CompareHashAndPassword([]byte(result.Pwd), []byte(pwd))
-		fmt.Println("kore")
 		if err == nil {
-			fmt.Println("are")
 			result.Pwd = "" //do not show password !!!
 			v, _ := config.GenerateToken(username)
 			result.Token = v

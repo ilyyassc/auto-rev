@@ -5,7 +5,6 @@ import (
 	"auto-rev/dao"
 	"auto-rev/model"
 	"auto-rev/external"
-	"fmt"
 )
 
 var subscriptionDao dao.SubscriptionDao = dao.SubscriptionDaoImpl{}
@@ -30,11 +29,6 @@ func (sImp SubscriptionServiceImpl) Subscribe(data *model.SubscribeParams) (e er
 
 	p, err := packageService.GetPackageById(data.PackageId)
 
-	fmt.Println("block1")
-	fmt.Println(err)
-	fmt.Println(p)
-	fmt.Println("block1")
-
 	if  err != nil {
 		return err
 	}
@@ -42,11 +36,6 @@ func (sImp SubscriptionServiceImpl) Subscribe(data *model.SubscribeParams) (e er
 	s.PackageId = p.Id
 
 	sp, err := subscriptionPackageService.CreateSubscriptionPackage(p, data.UserId)
-
-	fmt.Println("block2")
-	fmt.Println(err)
-	fmt.Println(sp.Id)
-	fmt.Println("block2")
 
 	if  err != nil {
 		return err

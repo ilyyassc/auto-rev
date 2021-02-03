@@ -3,14 +3,12 @@ package dao
 import (
 	"auto-rev/config"
 	"auto-rev/model"
-	"fmt"
 )
 
 type UserDaoImpl struct{}
 
 func (UserDaoImpl) CreateUser(user *model.Users) (u *model.Users, e error) {
 	defer config.CatchError(&e)
-	fmt.Println(user)
 	result := g.Create(user)
 	if result.Error == nil {
 		return user, nil

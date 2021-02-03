@@ -38,9 +38,6 @@ func Conn() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	fmt.Println("db flag")
-	fmt.Println(db)
-
 	return db, nil
 }
 
