@@ -3,6 +3,7 @@ package dao
 import (
 	"auto-rev/config"
 	"auto-rev/model"
+	"gorm.io/gorm/clause"
 )
 
 type SubscriptionDaoImpl struct{}
@@ -21,7 +22,9 @@ func (SubscriptionDaoImpl) GetSubscriptionByUserId(id string) (u model.Subscript
 
 func (SubscriptionDaoImpl) CreateSubscription(data model.Subscriptions) (e error) {
 	defer config.CatchError(&e)
-	result := g.Create(data)
+	result := g.Clauses(clause.OnConflict{
+		UpdateAll: true,
+	}).Create(&data)
 	if result.Error == nil {
 		return nil
 	}

@@ -4,11 +4,14 @@ import (
 	"auto-rev/config"
 	"auto-rev/dao"
 	"auto-rev/model"
+	"auto-rev/external"
+	"fmt"
 )
 
 var subscriptionDao dao.SubscriptionDao = dao.SubscriptionDaoImpl{}
 var packageService PackageService = PackageServiceImpl{}
 var subscriptionPackageService SubscriptionPackageService = SubscriptionPackageServiceImpl{}
+var subscriptionExternal external.SubscriptionExternal = external.SubscriptionExternalImpl{}
 
 type SubscriptionServiceImpl struct{}
 
@@ -26,6 +29,12 @@ func (sImp SubscriptionServiceImpl) Subscribe(data *model.SubscribeParams) (e er
 	}
 
 	p, err := packageService.GetPackageById(data.PackageId)
+
+	fmt.Println("block1")
+	fmt.Println(err)
+	fmt.Println(p)
+	fmt.Println("block1")
+
 	if  err != nil {
 		return err
 	}
@@ -34,12 +43,28 @@ func (sImp SubscriptionServiceImpl) Subscribe(data *model.SubscribeParams) (e er
 
 	sp, err := subscriptionPackageService.CreateSubscriptionPackage(p, data.UserId)
 
+	fmt.Println("block2")
+	fmt.Println(err)
+	fmt.Println(sp.Id)
+	fmt.Println("block2")
+
+	if  err != nil {
+		return err
+	}
+
 	s.SubscriptionPackageId = sp.Id
 	s.Remain = p.Quota
 	s.Quota = p.Quota
 	s.EndDate = sp.EndDate
 
-	return sImp.CreateSubscription(s)
+	err = sImp.CreateSubscription(s)
+	if err != nil{
+		return err
+	}
+
+	go subscriptionExternal.PostAutoRevSubscription(s)
+
+	return nil
 }
 
 func (SubscriptionServiceImpl) CreateSubscription(data model.Subscriptions) (e error) {

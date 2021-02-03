@@ -5,6 +5,6 @@ import (
 )
 
 type SubscriptionPackageDao interface {
-	GetSubscriptionPackageById(id string) (model.SubscriptionPackages, error)
-	CreateSubscriptionPackage(data model.SubscriptionPackages) error
+	GetSubscriptionPackageById(string) (model.SubscriptionPackages, error)
+	CreateSubscriptionPackage(model.SubscriptionPackages) (model.SubscriptionPackages, error)
 }

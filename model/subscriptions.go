@@ -5,7 +5,7 @@ import(
 )
 
 type Subscriptions struct {
-	UserId string `json:"user_id"`
+	UserId string `json:"user_id" gorm:"unique"`
 	SubscriptionPackageId string `json:"subscription_package_id"`
 	PackageId string `json:"package_id"`
 	Remain int `json:"remain"`

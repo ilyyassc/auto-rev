@@ -29,7 +29,7 @@ func (SubscriptionPackageServiceImpl) CreateSubscriptionPackage(p model.Packages
 		EndDate: time.Now().AddDate(0, 0, p.Duration),
 	}
 
-	err := subscriptionPackageDao.CreateSubscriptionPackage(sp)
+	sp, err := subscriptionPackageDao.CreateSubscriptionPackage(sp)
 	if err != nil{
 		return model.SubscriptionPackages{}, err
 	}
