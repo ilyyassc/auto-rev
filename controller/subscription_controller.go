@@ -6,7 +6,7 @@ import(
 	"auto-rev/model"
 
 	"github.com/labstack/echo/v4"
-	"errors"
+	"errors" 
 )
 
 var subscriptionService service.SubscriptionService = service.SubscriptionServiceImpl{}
@@ -18,10 +18,11 @@ func SetSubscription(eg *echo.Group) {
 
 func getSubscription(c echo.Context) (e error) {
 	defer config.CatchError(&e)
-	id := c.Param("userid")
-	// id := c.QueryParam("id")
+	test := []string{"username", "id"}
+	key := config.GetClaims(c, test...)
+	input, _ := key["id"].(string)
 
-	var result, err = subscriptionService.GetSubscriptionByUserId(id)
+	var result, err = subscriptionService.GetSubscriptionByUserId(input)
 	if err == nil {
 		if result.Count != 0 {
 			return res(c, result)

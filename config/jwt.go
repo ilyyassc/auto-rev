@@ -20,7 +20,7 @@ func SetJwt(e *echo.Echo) *echo.Group {
 	return jwtGroup
 }
 
-func GenerateToken(username string) (string, error) {
+func GenerateToken(username, id string) (string, error) {
 	defer CatchErrorGeneral()
 
 	// Create token
@@ -29,6 +29,7 @@ func GenerateToken(username string) (string, error) {
 	// Set claims
 	claims := token.Claims.(jwt.MapClaims)
 	claims["username"] = username
+	claims["id"] = id
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix() //sejam
 
 	// Generate encoded token
